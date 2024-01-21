@@ -2,6 +2,20 @@
     require_once 'autoload.php';
     $conn = new Connection();
 
+    if(isset($_POST)){
+        // echo '<pre>';
+        // var_dump($_POST);
+        // echo '</pre>';
+        if( isset($_POST['type']) && ($_POST['type'] == 'addNote')){
+            // echo $_POST['type'];
+            if(empty($_POST['title'])){
+                header('location:./?empty=title');
+            }else{
+                $conn->addNote($_POST);
+            }
+        }
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,9 +29,11 @@
     <!-- <h1>Abdullah Almamun</h1> -->
     <section class="na-body">
         <h1>Add note from here</h1>
-        <form action="#" method="post">
+        <form action="./" method="post">
+            <input type="hidden" name="type" value="addNote" >
             <input type="text" name="title" autocomplete="off">
             <textarea name="description" autocomplete="off" ></textarea>
+            <?php if(isset($_GET['empty'])){ echo 'Title can\'t be empty. '; } ?>
             <input type="submit" value="Add Note">
         </form>
 
