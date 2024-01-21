@@ -32,8 +32,6 @@ class Connection{
         $stmt->bindValue('description', $note['description']);
         $stmt->bindValue('created_at', date('Y-m-d H:i:sa'));
         return $stmt->execute();
-        // echo 'Note added';
-        // echo date('Y-m-d h:i:sa');
     }
 
     public function updateNote(array $note){

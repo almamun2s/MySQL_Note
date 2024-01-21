@@ -34,9 +34,6 @@
         }
     }
     if(isset($_POST['deleteNote'])){
-        // echo '<pre>';
-        // var_dump($_POST);
-        // echo '</pre>';
         $conn->deleteNote($_POST['noteId']);
     }
 
@@ -50,7 +47,6 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- <h1>Abdullah Almamun</h1> -->
     <section class="na-body">
         <h1>Add note from here</h1>
         <form action="./" method="post">
@@ -81,7 +77,6 @@
                     <?php echo $note['description'] ?>
                 </div>
                 <div class="na-note-bottom">
-                    <!-- 21/01/24  2:00 PM -->
                     <?php echo $note['created_at'] ?>
                 </div>
             </div>
