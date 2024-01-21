@@ -3,10 +3,7 @@
     $conn = new Connection();
 
     if(isset($_POST)){
-
         if( isset($_POST['type'])){
-
-            // echo $_POST['type'];
             if(empty($_POST['title'])){
                 header('location:./?empty=title');
             }else{
@@ -17,7 +14,6 @@
                     $conn->updateNote($_POST);
                 }
             }
-
         }
 
         if( !isset($_GET['id'])){
@@ -32,13 +28,16 @@
 
         }else{
             $noteById = $conn->getNotesById($_GET['id']);
-            // echo '<pre>';
-            // var_dump($noteById);
-            // echo '</pre>';
             $type = 'updateNote';
             $buttonText = 'Update Note';
             $forUpdate = '<input name="id" type="hidden" value="'.$_GET['id'].'">';
         }
+    }
+    if(isset($_POST['deleteNote'])){
+        // echo '<pre>';
+        // var_dump($_POST);
+        // echo '</pre>';
+        $conn->deleteNote($_POST['noteId']);
     }
 
 ?>
@@ -72,9 +71,9 @@
                 <h3  class="na-note-top">
                     <a href="./?id=<?php echo $note['id']; ?>" class="na-title"><?php echo $note['title'] ?></a>
                     <div class="na-xmark">
-                        <form action="#" method="post">
-                            <input type="hidden" name="noteId">
-                            <input type="submit" value="X" class="na-delete-note">
+                        <form action="./" method="post">
+                            <input type="hidden" name="noteId" value="<?= $note['id'] ?>">
+                            <input type="submit" name="deleteNote" value="X" class="na-delete-note">
                         </form>
                     </div>
                 </h3>
