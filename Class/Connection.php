@@ -15,6 +15,15 @@ class Connection{
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getNotesById(int $id){
+        $stmt = $this->pdo->prepare('SELECT * FROM notes WHERE id = :id ');
+        $stmt->bindValue('id', $id);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function addNote(array $note){
         date_default_timezone_set('Asia/Dhaka');
 
@@ -25,5 +34,13 @@ class Connection{
         return $stmt->execute();
         // echo 'Note added';
         // echo date('Y-m-d h:i:sa');
+    }
+    public function updateNote(array $note){
+        $stmt = $this->pdo->prepare('UPDATE notes SET title = :title , description = :description WHERE id = :id ');
+        $stmt->bindValue('title', $note['title']);
+        $stmt->bindValue('description', $note['description']);
+        $stmt->bindValue('id', $note['id']);
+        return $stmt->execute();
+
     }
 }

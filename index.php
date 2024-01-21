@@ -3,16 +3,41 @@
     $conn = new Connection();
 
     if(isset($_POST)){
-        // echo '<pre>';
-        // var_dump($_POST);
-        // echo '</pre>';
-        if( isset($_POST['type']) && ($_POST['type'] == 'addNote')){
+
+        if( isset($_POST['type'])){
+
             // echo $_POST['type'];
             if(empty($_POST['title'])){
                 header('location:./?empty=title');
             }else{
-                $conn->addNote($_POST);
+                if($_POST['type'] == 'addNote'){
+                    $conn->addNote($_POST);
+
+                }elseif ($_POST['type'] == 'updateNote') {
+                    $conn->updateNote($_POST);
+                }
             }
+
+        }
+
+        if( !isset($_GET['id'])){
+            $noteById = array(
+                'id'            => '',
+                'title'         => '',
+                'description'   => ''
+            );
+            $type = 'addNote';
+            $buttonText = 'Add Note';
+            $forUpdate = '';
+
+        }else{
+            $noteById = $conn->getNotesById($_GET['id']);
+            // echo '<pre>';
+            // var_dump($noteById);
+            // echo '</pre>';
+            $type = 'updateNote';
+            $buttonText = 'Update Note';
+            $forUpdate = '<input name="id" type="hidden" value="'.$_GET['id'].'">';
         }
     }
 
@@ -30,11 +55,12 @@
     <section class="na-body">
         <h1>Add note from here</h1>
         <form action="./" method="post">
-            <input type="hidden" name="type" value="addNote" >
-            <input type="text" name="title" autocomplete="off">
-            <textarea name="description" autocomplete="off" ></textarea>
+            <?= $forUpdate ?>
+            <input type="hidden" name="type" value="<?= $type ?>" >
+            <input type="text" name="title" autocomplete="off" value="<?= $noteById['title']; ?>" >
+            <textarea name="description" autocomplete="off" ><?= $noteById['description']; ?></textarea>
             <?php if(isset($_GET['empty'])){ echo 'Title can\'t be empty. '; } ?>
-            <input type="submit" value="Add Note">
+            <input type="submit" value="<?= $buttonText ?>">
         </form>
 
         <?php 
@@ -44,7 +70,7 @@
         ?>
             <div class="na-note">
                 <h3  class="na-note-top">
-                    <a href="#" class="na-title"><?php echo $note['title'] ?></a>
+                    <a href="./?id=<?php echo $note['id']; ?>" class="na-title"><?php echo $note['title'] ?></a>
                     <div class="na-xmark">
                         <form action="#" method="post">
                             <input type="hidden" name="noteId">
