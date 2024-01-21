@@ -36,6 +36,7 @@ input[type=submit]{
 .na-note{
     background-color: yellow;
     padding: 1rem;
+    margin-bottom: 1rem;
 }
 .na-note-top{
     display: flex;
